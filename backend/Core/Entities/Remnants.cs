@@ -2,8 +2,8 @@ namespace SteelShop.Core.Entities;
 
 public sealed class Remnants
 {
-    public int ID { get; set; }          // → Nomenclature.ID
-    public int IDStock { get; set; }
+    public int ID { get; set; }
+    public string IDStock { get; set; } = "";
     public double? InStockT { get; set; }
     public double? InStockM { get; set; }
     public double? SoonArriveT { get; set; }

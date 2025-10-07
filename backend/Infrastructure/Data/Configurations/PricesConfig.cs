@@ -11,7 +11,7 @@ public sealed class PricesConfig : IEntityTypeConfiguration<Prices>
         e.ToTable("prices");
         e.HasKey(x => new { x.ID, x.IDStock });
         e.Property(x => x.ID).HasColumnName("id");
-        e.Property(x => x.IDStock).HasColumnName("idstock");
+        e.Property(x => x.IDStock).HasColumnName("idstock"); // string
         e.Property(x => x.PriceT).HasColumnName("pricet").HasColumnType("numeric(18,2)");
         e.Property(x => x.PriceLimitT1).HasColumnName("pricelimitt1");
         e.Property(x => x.PriceT1).HasColumnName("pricet1").HasColumnType("numeric(18,2)");

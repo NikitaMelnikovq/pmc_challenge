@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SteelShop.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92379f7d9f5d5846da0c4adbc9218fc71b76674d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2dd1f69fb8436291bde73772b1f4c5b40c050747")]
 [assembly: System.Reflection.AssemblyProductAttribute("SteelShop.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SteelShop.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

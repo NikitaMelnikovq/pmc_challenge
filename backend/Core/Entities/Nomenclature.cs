@@ -5,9 +5,9 @@ public sealed class Nomenclature
     public int ID { get; set; }
     public int IDCat { get; set; }
     public string IDType { get; set; } = "";
-    public string? IDTypeNew { get; set; } = "";
+    public string? IDTypeNew { get; set; }
     public string? ProductionType { get; set; }
-    public int? IDFunctionType { get; set; }
+    public string? IDFunctionType { get; set; }
     public string Name { get; set; } = "";
     public string? Gost { get; set; }
     public string? FormOfLength { get; set; }
@@ -17,6 +17,5 @@ public sealed class Nomenclature
     public string? ProfileSize2 { get; set; }
     public double? PipeWallThickness { get; set; }
     public bool Status { get; set; }
-    /// <summary>Koef — тонн на метр (t/m)</summary>
     public double? Koef { get; set; }
 }

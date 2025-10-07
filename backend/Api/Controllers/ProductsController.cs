@@ -16,78 +16,78 @@ public sealed class ProductsController : ControllerBase
 
     public ProductsController(CatalogDbContext cat, IPriceService price)
     {
-        _cat = cat; _price = price;
+        _cat = cat;
+        _price = price;
     }
 
     /// <summary>
-    /// Фильтр по: склад (StockId или StockCity), тип/диаметр/стенка/ГОСТ/марка.
-    /// Если переданы Unit+Quantity и известен StockId — вернём EffectivePricePerMeter.
+    /// Фильтр по складу/городу, типу, диаметру, стенке, ГОСТ, марке.
+    /// Если переданы Unit+Quantity и известен единственный StockId — вернём EffectivePricePerMeter.
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductListItemDto>>> Get([FromQuery] ProductFilterDto q, CancellationToken ct)
     {
-        // 1) База: номенклатура с фильтрами
-        var nomQ = _cat.Nomenclature.AsNoTracking().AsQueryable();
+        // 1) База: Номенклатура + фильтры
+        var nm = _cat.Nomenclature.AsNoTracking().AsQueryable();
 
-        if (q.IDType.HasValue)           nomQ = nomQ.Where(x => x.IDType == q.IDType.Value);
-        if (q.Diameter.HasValue)         nomQ = nomQ.Where(x => x.Diameter == q.Diameter.Value);
-        if (q.PipeWallThickness.HasValue)nomQ = nomQ.Where(x => x.PipeWallThickness == q.PipeWallThickness.Value);
-        if (!string.IsNullOrWhiteSpace(q.Gost))       nomQ = nomQ.Where(x => x.Gost == q.Gost);
-        if (!string.IsNullOrWhiteSpace(q.SteelGrade)) nomQ = nomQ.Where(x => x.SteelGrade == q.SteelGrade);
+        if (!string.IsNullOrWhiteSpace(q.IDType))              nm = nm.Where(x => x.IDType == q.IDType);
+        if (q.Diameter.HasValue)                               nm = nm.Where(x => x.Diameter == q.Diameter.Value);
+        if (q.PipeWallThickness.HasValue)                      nm = nm.Where(x => x.PipeWallThickness == q.PipeWallThickness.Value);
+        if (!string.IsNullOrWhiteSpace(q.Gost))                nm = nm.Where(x => x.Gost == q.Gost);
+        if (!string.IsNullOrWhiteSpace(q.SteelGrade))          nm = nm.Where(x => x.SteelGrade == q.SteelGrade);
 
-        // 2) Фильтр по складу
-        var priceQ = _cat.Prices.AsNoTracking().AsQueryable();
+        // 2) Фильтр цен по складу
+        var pricesQ = _cat.Prices.AsNoTracking().AsQueryable();   // <— было priceQ (не объявлено)
+        List<string>? stockIdsFromCity = null;
+        string? chosenStockId = null;
 
-        List<int>? stockIds = null;
-        if (q.StockId.HasValue)
+        if (!string.IsNullOrWhiteSpace(q.StockId))
         {
-            priceQ = priceQ.Where(p => p.IDStock == q.StockId.Value);
+            pricesQ = pricesQ.Where(p => p.IDStock == q.StockId);
+            chosenStockId = q.StockId;
         }
         else if (!string.IsNullOrWhiteSpace(q.StockCity))
         {
-            stockIds = await _cat.Stocks
+            stockIdsFromCity = await _cat.Stocks
                 .Where(s => s.StockCity == q.StockCity)
                 .Select(s => s.IDStock)
                 .ToListAsync(ct);
-            priceQ = priceQ.Where(p => stockIds.Contains(p.IDStock));
+
+            if (stockIdsFromCity.Count > 0)
+                pricesQ = pricesQ.Where(p => stockIdsFromCity.Contains(p.IDStock));
+
+            if (stockIdsFromCity.Count == 1)
+                chosenStockId = stockIdsFromCity[0];
         }
 
-        // 3) Join и пейджинация
-        var skip = (q.Page - 1) * q.PageSize;
-        var baseQuery =
-            from n in nomQ
-            join pr in priceQ on n.ID equals pr.ID
+        // 3) Join + пагинация
+        var skip = Math.Max(q.Page - 1, 0) * q.PageSize;
+
+        var slice = await (
+            from n in nm
+            join pr in pricesQ on n.ID equals pr.ID
             orderby n.Name
-            select new { n, pr };
+            select new { n, pr }
+        ).Skip(skip).Take(q.PageSize).ToListAsync(ct);
 
-        var slice = await baseQuery.Skip(skip).Take(q.PageSize).ToListAsync(ct);
-
-        // 4) Собираем DTO. По умолчанию BasePricePerMeter = PriceM.
-        // Если переданы Unit+Quantity и известен однозначный StockId — считаем EffectivePricePerMeter.
+        // 4) Собираем DTO и считаем эффект. цену если можем
         var items = new List<ProductListItemDto>(slice.Count);
-        bool canCalcEffective = q.Unit.HasValue && q.Quantity.HasValue && (q.StockId.HasValue || (stockIds != null && stockIds.Count == 1));
+        bool canCalcEffective = q.Unit.HasValue && q.Quantity.HasValue && !string.IsNullOrWhiteSpace(chosenStockId);
 
         foreach (var row in slice)
         {
             decimal? effective = null;
-            var stockId = row.pr.IDStock;
 
             if (canCalcEffective)
             {
-                var unit = q.Unit!.Value;
-                var qty  = q.Quantity!.Value;
-
-                // если StockCity => возьмём единственный id из списка
-                if (!q.StockId.HasValue && stockIds is { Count: 1 })
-                    stockId = stockIds[0];
-
                 try
                 {
-                    effective = await _price.GetEffectivePricePerMeterAsync(row.n.ID, stockId, qty, unit, ct);
+                    effective = await _price.GetEffectivePricePerMeterAsync(
+                        row.n.ID, chosenStockId!, q.Quantity!.Value, q.Unit!.Value, ct);
                 }
                 catch
                 {
-                    // молча падаем в null — фронт покажет базовую
+                    // проглатываем — отдадим только BasePricePerMeter
                 }
             }
 
@@ -108,10 +108,11 @@ public sealed class ProductsController : ControllerBase
         return Ok(items);
     }
 
+    /// <summary>Быстрый расчёт финальной цены за метр под количество/единицу/склад.</summary>
     [HttpGet("{id:int}/quote")]
     public async Task<ActionResult<ProductQuoteResponse>> Quote(
         int id,
-        [FromQuery] int stockId,
+        [FromQuery] string stockId,
         [FromQuery] QuantityUnit unit,
         [FromQuery] double quantity,
         CancellationToken ct)

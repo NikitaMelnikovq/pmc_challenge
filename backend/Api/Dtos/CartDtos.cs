@@ -2,22 +2,11 @@ using SteelShop.Core.Entities;
 
 namespace SteelShop.Api.Dtos;
 
-public sealed record AddToCartDto(
-    int ProductId,
-    int StockId,
-    double Quantity,
-    QuantityUnit Unit // "Meter" | "Ton"
-);
+public sealed record AddToCartDto(int ProductId, string StockId, double Quantity, QuantityUnit Unit);
 
-public sealed record CartItemDto(
-    long Id,
-    int ProductId,
-    int StockId,
-    double Quantity,
-    QuantityUnit Unit,
-    decimal UnitPricePerMeter, // зафиксировано при добавлении
-    decimal LineTotal          // Quantity -> (м) * UnitPricePerMeter
-);
+public sealed record CartItemDto(long Id, int ProductId, string StockId, double Quantity,
+                                 QuantityUnit Unit, decimal UnitPricePerMeter, decimal LineTotal);
+
 
 public sealed record CartDto(
     Guid Id,
