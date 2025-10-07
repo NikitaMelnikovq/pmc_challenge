@@ -55,7 +55,7 @@ const CartPageMain = () => {
 
                                     <div className="cartItem__price">
                                         <div className="priceBox">
-                                            <div className="priceBox__label">Цена (заглушка)</div>
+                                            <div className="priceBox__label">Цена</div>
                                             <div className="priceBox__value">—</div>
                                         </div>
                                         <button className="btn btn--ghost btn--full" onClick={() => removeItem(i.id)}>

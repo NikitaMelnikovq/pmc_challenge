@@ -28,7 +28,7 @@ body {
   background: linear-gradient(45deg, #7a563c, #430432, #2d316a);
   background-size: 400% 400%;
   /* увеличиваем, чтобы градиент мог "двигаться" */
-  animation: gradientShift 5s linear infinite;
+  animation: gradientShift 10s linear infinite;
   /* анимация движения */
 }
 
