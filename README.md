@@ -120,8 +120,8 @@ pip install -r requirements.txt
 mkdir .env
 
 # Настройка конфигурации c токеном и URL
-echo "BOT_TOKEN='your_bot_token'" > .env  # Указать ваш токен
-echo "WEBAPP_URL='http://localhost:3000'" >> .env # Указать ваш URL
+echo BOT_TOKEN='your_bot_token' > .env  # Указать ваш токен
+echo WEBAPP_URL='http://localhost:3000' >> .env # Указать ваш URL
 ```
 
 ---
