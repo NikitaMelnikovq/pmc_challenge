@@ -92,6 +92,15 @@ npm run dev
 
 ### ▶️ Backend
 
+Необходимо создать .env файл в \backend\Api\ с следующими полями:
+```bash
+ASPNETCORE_ENVIRONMENT=Production
+ASPNETCORE_URLS=https://localhost:5001;http://localhost:5000
+CORS_ALLOWEDORIGINS=http://localhost:5173,https://*.ngrok-free.app,https://*.trycloudflare.com,https://*.xtunnel.ru,https://*.vk.com,https://*.tunnel4.com
+CATALOG_DB="Host=127.0.0.1;Port=5432;Database=app_db;Username=pmc;Password=pswd"
+APP_DB="Host=127.0.0.1;Port=5432;Database=catalog_db;Username=pmc;Password=pswd"
+```
+
 ```bash
 cd backend
 dotnet restore
