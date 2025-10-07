@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from "react";
+import { useTelegram } from "./hooks/useTelegram";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { tg, scheme } = useTelegram();
+
+  useEffect(() => {
+    if (tg) {
+      console.log("✅ Telegram WebApp обнаружен!");
+      console.log("Пользователь:", tg.initDataUnsafe?.user);
+      tg.MainButton.setText("Telegram работает ✅");
+      tg.MainButton.show();
+    } else {
+      console.warn("⚠️ Telegram WebApp не найден — открой страницу через Telegram");
+    }
+  }, [tg]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        background: scheme === "dark" ? "#1e1e1e" : "#f9f9f9",
+        color: "#ec6608",
+        fontFamily: "Geologica, sans-serif",
+      }}
+    >
+      <h1 style={{ fontSize: "3rem", fontWeight: "bold" }}>TMK</h1>
+      <p>Mini App тестовая интеграция</p>
+    </div>
+  );
 }
 
-export default App
+export default App;
