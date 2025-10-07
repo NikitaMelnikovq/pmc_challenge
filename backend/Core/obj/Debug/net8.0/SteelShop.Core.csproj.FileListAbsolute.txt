@@ -1,0 +1,12 @@
+/home/nikita/Programming/pmc_challenge/backend/Core/bin/Debug/net8.0/SteelShop.Core.deps.json
+/home/nikita/Programming/pmc_challenge/backend/Core/bin/Debug/net8.0/SteelShop.Core.dll
+/home/nikita/Programming/pmc_challenge/backend/Core/bin/Debug/net8.0/SteelShop.Core.pdb
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/SteelShop.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/SteelShop.Core.AssemblyInfoInputs.cache
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/SteelShop.Core.AssemblyInfo.cs
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/SteelShop.Core.csproj.CoreCompileInputs.cache
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/SteelShop.Core.sourcelink.json
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/SteelShop.Core.dll
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/refint/SteelShop.Core.dll
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/SteelShop.Core.pdb
+/home/nikita/Programming/pmc_challenge/backend/Core/obj/Debug/net8.0/ref/SteelShop.Core.dll

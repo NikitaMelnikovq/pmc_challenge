@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "R82ISSbvebkFioijSroZM2xoEFJvbl89f/EGvYRiKiI=",
+  "Source": "SteelShop.Api",
+  "BasePath": "_content/SteelShop.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

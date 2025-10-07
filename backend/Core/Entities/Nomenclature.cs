@@ -4,8 +4,8 @@ public sealed class Nomenclature
 {
     public int ID { get; set; }
     public int IDCat { get; set; }
-    public int IDType { get; set; }
-    public int? IDTypeNew { get; set; }
+    public string IDType { get; set; } = "";
+    public string? IDTypeNew { get; set; } = "";
     public string? ProductionType { get; set; }
     public int? IDFunctionType { get; set; }
     public string Name { get; set; } = "";

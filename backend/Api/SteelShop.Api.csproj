@@ -6,10 +6,11 @@
     <RootNamespace>SteelShop.Api</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SteelShop.Core\SteelShop.Core.csproj" />
-    <ProjectReference Include="..\SteelShop.Infrastructure\SteelShop.Infrastructure.csproj" />
+    <ProjectReference Include="../Core/SteelShop.Core.csproj" />
+    <ProjectReference Include="../Infrastructure/SteelShop.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
   </ItemGroup>
