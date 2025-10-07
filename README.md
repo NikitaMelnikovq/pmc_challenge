@@ -95,7 +95,20 @@ npm run dev
 ```bash
 cd backend
 dotnet restore
-dotnet run
+dotnet run --project .\Api\SteelShop.Api.csproj
+```
+Может понадобиться создать и доверить dev-сертификат HTTPS:
+
+```bash
+dotnet dev-certs https --trust
+```
+
+api будет доступно на:
+
+```bash
+http://localhost:5572
+https://localhost:5571  # Windows/macOS
+http://localhost:5572/swagger # Документация swagger
 ```
 
 ### ▶️ Telegram Bot
