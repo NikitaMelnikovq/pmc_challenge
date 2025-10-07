@@ -20,7 +20,7 @@ function App() {
   }, [tg]);
 
   return (
-    <BrowserRouter basename='/pmc_challenge/'>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/catalog" />} />
         <Route path="/catalog" element={<CatalogPage />} />
