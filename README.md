@@ -61,7 +61,7 @@ FRONT (React Mini App)
 | Компонент | Технологии |
 |------------|-------------|
 | Backend | C#, ASP.NET Core, Entity Framework |
-| Bot | Node.js / Telegraf / Telegram Bot API |
+| Bot | Python / aiogram |
 | Frontend | React, TypeScript, Vite, Zustand, Axios, SCSS |
 | Базы данных | PostgreSQL / MSSQL |
 | Контейнеризация | Docker, Docker Compose |
@@ -101,9 +101,27 @@ dotnet run
 ### ▶️ Telegram Bot
 
 ```bash
-cd bot
-npm install
-npm run start
+# Переход в папку бота
+cd bot_gui
+
+# Создание виртуального окружения
+python -m venv venv
+
+# Активация виртуального окружения
+# Для Windows:
+venv\Scripts\activate
+# Для Linux/Mac:
+source venv/bin/activate
+
+# Установка зависимостей
+pip install -r requirements.txt
+
+# Создание папки
+mkdir .env
+
+# Настройка конфигурации c токеном и URL
+echo BOT_TOKEN='your_bot_token' > .env  # Указать ваш токен
+echo WEBAPP_URL='http://localhost:3000' >> .env # Указать ваш URL
 ```
 
 ---
