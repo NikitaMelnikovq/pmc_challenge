@@ -39,7 +39,7 @@
 
 ```
 pmc_challenge/
-├─ bot/        # Telegram Bot backend (логика общения с пользователем)
+├─ bot_qui/        # Telegram Bot backend (логика общения с пользователем)
 ├─ backend/    # ASP.NET Core (C#) API — каталоги, цены, остатки, заказы
 └─ frontend/   # React + TypeScript + Vite — Telegram Mini App
 ```
@@ -65,7 +65,7 @@ FRONT (React Mini App)
 | Frontend | React, TypeScript, Vite, Zustand, Axios, SCSS |
 | Базы данных | PostgreSQL / MSSQL |
 | Контейнеризация | Docker, Docker Compose |
-| Инфраструктура | Ngrok / Nginx для HTTPS при демо |
+| Инфраструктура | xtunnel |
 | Контроль версий | GitHub |
 
 ---
